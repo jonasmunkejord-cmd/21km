@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fredrikstad Halvmaraton — Opplegg</title>
+<meta name="theme-color" content="#15302D">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Halvmaraton">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#EEF2EF;
+    --surface:#FFFFFF;
+    --ink:#122023;
+    --ink-soft:#57696B;
+    --ink-faint:#93A29F;
+    --primary:#15302D;
+    --primary-soft:#25504F;
+    --accent:#B8483A;
+    --accent-soft:#F1DCD4;
+    --gold:#C68A3E;
+    --gold-soft:#F3E4C8;
+    --line:#DEE4E0;
+    --line-soft:#E9EDEA;
+    --radius:16px;
+    --shadow: 0 1px 1px rgba(18,32,35,.03), 0 6px 18px rgba(18,32,35,.05);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:#D7DEDA;
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+  }
+  #shell{
+    width:100%;
+    max-width:460px;
+    min-height:100vh;
+    background:var(--bg);
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 0 40px rgba(0,0,0,.18);
+  }
+  #topbar{
+    padding:18px 20px 14px;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    background:var(--bg);
+    z-index:5;
+    border-bottom:1px solid var(--line-soft);
+  }
+  #topbar .brand{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-style:italic;
+    font-size:19px;
+    color:var(--primary);
+  }
+  #topbar .sub{
+    font-size:11.5px;
+    color:var(--ink-faint);
+  }
+  main{
+    flex:1;
+    overflow-y:auto;
+    padding:18px 20px 100px;
+    -webkit-overflow-scrolling:touch;
+  }
+  h1,h2,h3{margin:0;}
+  .eyebrow{
+    font-size:12.5px;
+    color:var(--ink-faint);
+    margin-bottom:4px;
+  }
+  /* ---- Dashboard hero ---- */
+  .hero{
+    background:linear-gradient(160deg, var(--primary) 0%, #0E2B2C 100%);
+    color:#F3F6F4;
+    border-radius:20px;
+    padding:26px 22px 22px;
+    margin-bottom:16px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    right:-40px; top:-40px;
+    width:160px;height:160px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(199,71,58,.35), transparent 70%);
+  }
+  .hero .race-name{
+    font-size:13px;
+    letter-spacing:.2px;
+    color:#B9CBC7;
+    margin-bottom:2px;
+  }
+  .hero .countdown{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:64px;
+    line-height:1;
+    margin:6px 0 2px;
+  }
+  .hero .countdown-label{
+    font-size:14px;
+    color:#D7E3E0;
+  }
+  .hero .hero-meta{
+    display:flex;
+    gap:18px;
+    margin-top:18px;
+    padding-top:14px;
+    border-top:1px solid rgba(255,255,255,.14);
+  }
+  .hero .hero-meta div{flex:1;}
+  .hero .hero-meta .n{font-size:19px;font-weight:600;}
+  .hero .hero-meta .l{font-size:11.5px;color:#B9CBC7;}
+
+  /* ---- Weather ---- */
+  .weather-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:2px;
+  }
+  .weather-loc{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:5px;
+    cursor:pointer;
+    background:none;
+    border:none;
+    font-family:inherit;
+    padding:0;
+  }
+  .weather-loc svg{width:13px;height:13px;opacity:.6;}
+  .weather-now{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    margin-top:10px;
+  }
+  .weather-now .icon{font-size:34px;line-height:1;}
+  .weather-now .temp{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:32px;
+    color:var(--ink);
+  }
+  .weather-now .desc{font-size:12.5px;color:var(--ink-soft);}
+  .weather-now .wind{font-size:11px;color:var(--ink-faint);}
+  .weather-days{
+    display:flex;
+    margin-top:14px;
+    padding-top:12px;
+    border-top:1px solid var(--line-soft);
+  }
+  .weather-day{
+    flex:1;
+    text-align:center;
+  }
+  .weather-day .d{font-size:11px;color:var(--ink-faint);text-transform:capitalize;}
+  .weather-day .i{font-size:19px;margin:3px 0;}
+  .weather-day .t{font-size:12px;font-weight:600;color:var(--ink);}
+  .weather-day .tmin{font-size:11px;color:var(--ink-faint);}
+  .weather-day .p{font-size:10.5px;color:var(--primary-soft);margin-top:1px;}
+  .loc-search{margin-top:10px;display:none;}
+  .loc-search.open{display:block;}
+  .loc-search input{
+    width:100%;
+    padding:8px 10px;
+    border-radius:9px;
+    border:1px solid var(--line);
+    font-family:inherit;
+    font-size:13.5px;
+    background:#FAFBFA;
+    margin-bottom:6px;
+  }
+  .loc-result{
+    padding:8px 4px;
+    font-size:13px;
+    border-top:1px solid var(--line-soft);
+    cursor:pointer;
+  }
+  .loc-result:hover{color:var(--primary);}
+  .weather-msg{font-size:12.5px;color:var(--ink-faint);padding:8px 0;}
+
+  /* ---- Strava ---- */
+  .card-top-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .strava-btn{background:#FC4C02;width:auto;padding:10px 18px;}
+  .icon-btn{
+    background:var(--line-soft);
+    border:none;
+    width:30px;height:30px;
+    border-radius:50%;
+    font-size:15px;
+    color:var(--ink-soft);
+    cursor:pointer;
+    flex-shrink:0;
+  }
+
+  .card{
+    background:var(--surface);
+    border-radius:var(--radius);
+    padding:16px 17px;
+    margin-bottom:12px;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line-soft);
+  }
+  .card-title{
+    font-size:15px;
+    font-weight:600;
+    margin-bottom:2px;
+  }
+  .card-sub{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:12px;
+  }
+  .phase-pill{
+    display:inline-block;
+    font-size:11px;
+    font-weight:600;
+    padding:3px 9px;
+    border-radius:99px;
+    background:var(--gold-soft);
+    color:#8C5B15;
+    margin-bottom:8px;
+  }
+  .session-row{
+    display:flex;
+    align-items:flex-start;
+    gap:11px;
+    padding:10px 0;
+    border-top:1px solid var(--line-soft);
+  }
+  .session-row:first-of-type{border-top:none;}
+  .check{
+    width:22px;height:22px;
+    border-radius:7px;
+    border:1.6px solid var(--line);
+    flex-shrink:0;
+    margin-top:1px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    transition:background .15s, border-color .15s;
+  }
+  .check.done{
+    background:var(--primary);
+    border-color:var(--primary);
+  }
+  .check.done::after{
+    content:"";
+    width:10px;height:6px;
+    border-left:2px solid #fff;
+    border-bottom:2px solid #fff;
+    transform:rotate(-45deg) translateY(-1px);
+  }
+  .session-body{flex:1;}
+  .session-label{font-size:14px;font-weight:600;}
+  .session-label.done-text{color:var(--ink-faint); text-decoration:line-through; text-decoration-color:var(--line);}
+  .session-detail{font-size:12.5px;color:var(--ink-soft);margin-top:2px;line-height:1.4;}
+  .session-pace{font-size:11.5px;color:var(--accent);font-weight:600;margin-top:3px;}
+
+  /* ---- Tab bar ---- */
+  #tabbar{
+    position:sticky;
+    bottom:0;
+    display:flex;
+    background:var(--surface);
+    border-top:1px solid var(--line);
+    padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+    z-index:10;
+  }
+  .tab{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    background:none;
+    border:none;
+    font-family:inherit;
+    padding:6px 2px;
+    color:var(--ink-faint);
+    font-size:11px;
+    cursor:pointer;
+  }
+  .tab svg{width:21px;height:21px;}
+  .tab.active{color:var(--primary);}
+  .tab.active svg{stroke:var(--primary);}
+  .tab svg{stroke:var(--ink-faint); fill:none; stroke-width:1.7;}
+
+  /* ---- Plan tab ---- */
+  .weeks-wrap{
+    background:var(--surface);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    border:1px solid var(--line-soft);
+    overflow:hidden;
+  }
+  .week-card{
+    border-top:1px solid var(--line-soft);
+    position:relative;
+  }
+  .week-card:first-child{border-top:none;}
+  .week-card.current{background:linear-gradient(90deg, rgba(21,48,45,.045), transparent 40%);}
+  .week-card.current::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0;
+    width:3px; background:var(--accent);
+  }
+  .week-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:15px 16px 15px 18px;
+    cursor:pointer;
+  }
+  .week-head .wk{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:19px;
+    color:var(--primary-soft);
+    width:34px;
+  }
+  .week-head .wk-info{flex:1;padding-left:6px;}
+  .week-head .wk-phase{font-size:11.5px;color:var(--ink-faint);}
+  .week-head .wk-range{font-size:11.5px;color:var(--ink-faint);}
+  .week-head .wk-total{font-size:12.5px;font-weight:600;color:var(--ink-soft);}
+  .chev{transition:transform .15s;color:var(--ink-faint);flex-shrink:0;margin-left:8px;}
+  .chev.open{transform:rotate(180deg);}
+  .week-body{
+    padding:0 16px 15px 18px;
+    display:none;
+  }
+  .week-body.open{display:block;}
+  .current-flag{
+    font-size:10.5px;
+    font-weight:700;
+    color:var(--accent);
+    letter-spacing:.3px;
+  }
+
+  .pace-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .pace-table td{padding:7px 0;border-top:1px solid var(--line-soft);}
+  .pace-table td:first-child{color:var(--ink-soft);}
+  .pace-table td:last-child{text-align:right;font-weight:600;}
+
+  /* ---- Nutrition tab ---- */
+  .input-row{
+    display:flex;
+    gap:9px;
+    margin-bottom:10px;
+  }
+  .input-group{flex:1;}
+  .input-group label{font-size:11.5px;color:var(--ink-soft);display:block;margin-bottom:4px;}
+  .input-group input, .input-group select{
+    width:100%;
+    padding:9px 10px;
+    border-radius:9px;
+    border:1px solid var(--line);
+    font-family:inherit;
+    font-size:14px;
+    background:#FAFBFA;
+    color:var(--ink);
+  }
+  .btn{
+    display:inline-block;
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:11px 18px;
+    border-radius:10px;
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:600;
+    cursor:pointer;
+    width:100%;
+  }
+  .btn.secondary{
+    background:transparent;
+    color:var(--primary);
+    border:1.4px solid var(--primary);
+  }
+  .macro-bar{
+    display:flex;
+    height:9px;
+    border-radius:99px;
+    overflow:hidden;
+    margin-top:14px;
+    background:var(--line-soft);
+  }
+  .macro-bar span{height:100%;}
+  .macro-legend{display:flex;justify-content:space-between;margin-top:10px;}
+  .macro-legend div{text-align:left;}
+  .macro-legend .dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;position:relative;top:-1px;}
+  .macro-legend .v{font-size:13.5px;font-weight:600;color:var(--ink);}
+  .macro-legend .l{font-size:10.5px;color:var(--ink-faint);}
+  .kcal-big{
+    font-family:'Fraunces',serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:38px;
+    color:var(--primary);
+  }
+  .tip-list{margin:0;padding-left:18px;font-size:13px;color:var(--ink-soft);line-height:1.6;}
+  .tip-list li{margin-bottom:4px;}
+
+  /* ---- Progress tab ---- */
+  .weight-form{display:flex;gap:8px;align-items:flex-end;margin-bottom:14px;}
+  .weight-form .input-group{flex:1;margin-bottom:0;}
+  .weight-form .btn{width:auto;padding:9px 16px;}
+  #weightChart{width:100%;height:140px;display:block;}
+  .empty-state{
+    text-align:center;
+    padding:22px 10px;
+    color:var(--ink-faint);
+    font-size:13px;
+  }
+  .log-row{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-top:1px solid var(--line-soft);}
+  .log-row:first-child{border-top:none;}
+  .log-row .d{color:var(--ink-soft);}
+  .log-row .w{font-weight:600;}
+  .stat-strip{display:flex;text-align:center;}
+  .stat-strip .stat{flex:1;padding:2px 8px;}
+  .stat-strip .stat + .stat{border-left:1px solid var(--line-soft);}
+  .stat-strip .v{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:24px;color:var(--primary);}
+  .stat-strip .l{font-size:10.5px;color:var(--ink-soft);margin-top:2px;}
+</style>
+</head>
+<body>
+<div id="shell">
+  <div id="topbar">
+    <div>
+      <div class="brand">Til start</div>
+      <div class="sub" id="topbarSub">Fredrikstad Halvmaraton</div>
+    </div>
+    <div class="sub" id="topbarWeek"></div>
+  </div>
+  <main id="content"></main>
+  <nav id="tabbar">
+    <button class="tab" data-tab="dashboard">
+      <svg viewBox="0 0 24 24"><path d="M4 12l8-7 8 7M6 10v9h12v-9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      I dag
+    </button>
+    <button class="tab" data-tab="plan">
+      <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16" stroke-linecap="round"/></svg>
+      Plan
+    </button>
+    <button class="tab" data-tab="kosthold">
+      <svg viewBox="0 0 24 24"><path d="M12 3c-1 2-2 3-2 5a2 2 0 004 0c0-2-1-3-2-5z"/><path d="M12 9v12M7 21h10" stroke-linecap="round"/></svg>
+      Kosthold
+    </button>
+    <button class="tab" data-tab="fremgang">
+      <svg viewBox="0 0 24 24"><path d="M4 19V10M11 19V5M18 19v-7" stroke-linecap="round"/></svg>
+      Fremgang
+    </button>
+  </nav>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============ PROGRAM DATA ============ */
+const RACE_DATE = new Date(2027,3,4,9,0,0); // 4. april 2027
+const PROGRAM_START = new Date(2026,8,15); // 15. september 2026 — start i morgen
+const RACE_NAME = "Fredrikstad Halvmaraton";
+const GOAL_TIME = "1:45:00";
+const GOAL_PACE = "4:58/km";
+const TOTAL_WEEKS = 29;
+
+// Long run distance (km) per week, index 0 = week 1. Week 29 = raceweek (no separate long run).
+const LONG_RUN = [8,9,10,7, 10,11,12,8, 12,13,14,9, 14,15,16,11, 16,17,18,12, 18,19,15, 14,11,8, 8,6, 0];
+
+const PHASES = [
+  {range:[1,4], name:"Oppbygging", easyKm:6,
+    q:[
+      {km:6, desc:"Fartslek: 6 km rolig med 6×1 min rask, jogg imellom", pace:"Varierer"},
+      {km:6, desc:"Rolig tur med 6×100 m stigningsløp på slutten", pace:"Rolig + stigning"}
+    ],
+    longDesc:"Jevnt og rolig, ingen fart", longPace:"5:50–6:20/km",
+    strength:"Helkroppsstyrke: knebøy, utfall, hip thrust, planke — 3 sett × 10–12 reps, fokus på ben og kjerne"},
+  {range:[5,8], name:"Oppbygging", easyKm:7,
+    q:[
+      {km:8, desc:"8×45 sek i motbakke, jogg ned mellom hver", pace:"Hardt i motbakke"},
+      {km:7, desc:"Progressiv rolig tur — siste 2 km litt raskere", pace:"Rolig → moderat"}
+    ],
+    longDesc:"Jevnt og rolig", longPace:"5:40–6:10/km",
+    strength:"Styrke for løpere: bulgarsk splitknebøy, rumensk markløft, tåhev, planke/sideplanke — 3 sett × 10 reps"},
+  {range:[9,12], name:"Grunntrening", easyKm:8,
+    q:[
+      {km:8, desc:"20 min sammenhengende i terskelfart", pace:"5:15–5:25/km"},
+      {km:9, desc:"6×1000 m i 5K-fart, 2 min rolig jogg mellom", pace:"4:35–4:45/km"}
+    ],
+    longDesc:"Jevnt, gjerne siste 2 km litt friskere", longPace:"5:30–6:00/km",
+    strength:"Tyngre styrke: knebøy, rumensk markløft, step-up, planke — 3 sett × 8 reps, litt mer belastning"},
+  {range:[13,16], name:"Grunntrening", easyKm:9,
+    q:[
+      {km:10, desc:"25 min sammenhengende i terskelfart", pace:"5:15–5:25/km"},
+      {km:10, desc:"5×1200 m i 5K-fart, 2 min jogg mellom", pace:"4:35–4:45/km"}
+    ],
+    longDesc:"Jevnt, siste 3 km i moderat fart", longPace:"5:25–5:55/km",
+    strength:"Tyngre styrke: knebøy, rumensk markløft, step-up, planke — 3 sett × 8 reps"},
+  {range:[17,20], name:"Race-spesifikk", easyKm:9,
+    q:[
+      {km:11, desc:"3×2 km i målfart, 2 min jogg mellom", pace:GOAL_PACE},
+      {km:10, desc:"30 min progressiv terskeløkt", pace:"5:10–5:20/km"}
+    ],
+    longDesc:"Siste 5 km i målfart", longPace:"5:20–5:50/km → "+GOAL_PACE,
+    strength:"Styrke + eksplosivitet: lav-volum hopp, knebøy, utfall, planke — 2–3 sett, prioriter kvalitet fremfor volum"},
+  {range:[21,23], name:"Race-spesifikk", easyKm:9,
+    q:[
+      {km:12, desc:"3×3 km i målfart, 2 min jogg mellom", pace:GOAL_PACE},
+      {km:10, desc:"8×400 m i 5K-fart", pace:"4:35–4:45/km"}
+    ],
+    longDesc:"Siste 6-8 km i målfart — dette er den lengste økten", longPace:"5:20–5:50/km → "+GOAL_PACE,
+    strength:"Styrke + eksplosivitet: lav-volum hopp, knebøy, utfall, planke — 2 sett, hold beina friske"},
+  {range:[24,26], name:"Nedtrapping", easyKm:7,
+    q:[
+      {km:8, desc:"4×1 km i målfart, hold det lett mellom", pace:GOAL_PACE},
+      {km:7, desc:"Rolig tur med 4×100 m stigningsløp", pace:"Rolig + stigning"}
+    ],
+    longDesc:"Rolig, redusert lengde, hold kroppen frisk", longPace:"5:30–6:00/km",
+    strength:"Lett vedlikeholdsstyrke: samme øvelser, 2 sett — ikke tungt, bare hold kroppen i gang"},
+  {range:[27,28], name:"Siste nedtrapping", easyKm:6,
+    q:[
+      {km:6, desc:"6×400 m i målfart — kort og skarpt, ikke tungt", pace:GOAL_PACE},
+      {km:5, desc:"Rolig tur med noen lette stigningsløp", pace:"Rolig + stigning"}
+    ],
+    longDesc:"Kort og rolig", longPace:"5:40–6:10/km",
+    strength:"Veldig lett mobilitet/aktivering — ingen tunge løft denne uken"},
+];
+
+function phaseFor(week){
+  for(const p of PHASES){ if(week>=p.range[0] && week<=p.range[1]) return p; }
+  return null;
+}
+
+function weekRange(weekNum){
+  const start = new Date(PROGRAM_START.getTime() + (weekNum-1)*7*86400000);
+  if(weekNum === TOTAL_WEEKS){
+    return {start, end: RACE_DATE}; // siste uke ender alltid nøyaktig på løpsdagen
+  }
+  const end = new Date(start.getTime() + 6*86400000);
+  return {start,end};
+}
+
+function fmtDate(d){
+  return d.toLocaleDateString('nb-NO',{day:'numeric',month:'short'});
+}
+
+function buildWeeks(){
+  const weeks=[];
+  for(let w=1; w<=TOTAL_WEEKS; w++){
+    const {start,end} = weekRange(w);
+    if(w===TOTAL_WEEKS){
+      weeks.push({
+        week:w, phaseName:"Løpsuke", start, end,
+        sessions:[
+          {id:'shake1', label:'Aktiveringstur', km:4, desc:'20 min rolig + 4×100 m stigningsløp, kjenn deg lett', pace:'Rolig'},
+          {id:'shake2', label:'Siste aktivering', km:3, desc:'15 min rolig, hold beina våkne — ikke mer', pace:'Rolig'},
+          {id:'race', label:'🏁 LØPSDAG — '+RACE_NAME, km:21.1, desc:'Målfart '+GOAL_PACE+' i snitt for '+GOAL_TIME, pace:'4:55–5:00/km'}
+        ],
+        total:27.1
+      });
+      continue;
+    }
+    const p = phaseFor(w);
+    const qOpt = p.q[w%2===0 ? 1 : 0];
+    const long = LONG_RUN[w-1];
+    const sessions = [
+      {id:'easy', label:'Rolig tur', km:p.easyKm, desc:'Snakkefart, ingen stress', pace:'5:50–6:20/km'},
+      {id:'quality', label:'Kvalitetsøkt', km:qOpt.km, desc:qOpt.desc, pace:qOpt.pace},
+      {id:'strength', label:'Styrke', km:0, desc:p.strength, pace:'30–40 min'},
+      {id:'long', label:'Langtur', km:long, desc:p.longDesc, pace:p.longPace}
+    ];
+    const total = p.easyKm + qOpt.km + long;
+    weeks.push({week:w, phaseName:p.name, start, end, sessions, total});
+  }
+  return weeks;
+}
+const WEEKS = buildWeeks();
+
+function currentWeekIndex(){
+  const now = new Date();
+  for(let i=0;i<WEEKS.length;i++){
+    if(now <= WEEKS[i].end) return i;
+  }
+  return WEEKS.length-1;
+}
+
+/* ============ STORAGE ============ */
+const store = {
+  async get(key){
+    try{ const r = await window.storage.get(key, false); return r ? JSON.parse(r.value) : null; }
+    catch(e){ return null; }
+  },
+  async set(key, value){
+    try{ await window.storage.set(key, JSON.stringify(value), false); return true; }
+    catch(e){ return false; }
+  }
+};
+
+let trainingLog = {};
+let weightLog = [];
+let profile = null;
+let weatherLocation = null;
+let weatherData = null; // {fetchedAt, current:{temp,wind,code,isDay}, daily:[{date,max,min,precipProb,code}]}
+let weatherStatus = 'idle'; // idle | loading | ok | error
+
+const DEFAULT_LOCATION = {name:"Høybråten, Oslo", lat:59.9515, lon:10.8709};
+
+async function loadAll(){
+  const [t,w,p,loc] = await Promise.all([
+    store.get('training-log'),
+    store.get('weight-log'),
+    store.get('profile'),
+    store.get('weather-location')
+  ]);
+  trainingLog = t || {};
+  weightLog = w || [];
+  profile = p || null;
+  weatherLocation = loc || DEFAULT_LOCATION;
+  await loadStrava();
+}
+
+/* ============ WEATHER (Open-Meteo, ingen nøkkel) ============ */
+const WMO = {
+  0:{l:"Klarvær",i:"☀️"}, 1:{l:"Mest klart",i:"🌤️"}, 2:{l:"Delvis skyet",i:"⛅"}, 3:{l:"Overskyet",i:"☁️"},
+  45:{l:"Tåke",i:"🌫️"}, 48:{l:"Tåke",i:"🌫️"},
+  51:{l:"Lett duskregn",i:"🌦️"}, 53:{l:"Duskregn",i:"🌦️"}, 55:{l:"Kraftig duskregn",i:"🌦️"},
+  56:{l:"Underkjølt yr",i:"🌧️"}, 57:{l:"Underkjølt yr",i:"🌧️"},
+  61:{l:"Lett regn",i:"🌧️"}, 63:{l:"Regn",i:"🌧️"}, 65:{l:"Kraftig regn",i:"🌧️"},
+  66:{l:"Underkjølt regn",i:"🌧️"}, 67:{l:"Underkjølt regn",i:"🌧️"},
+  71:{l:"Lett snø",i:"🌨️"}, 73:{l:"Snø",i:"🌨️"}, 75:{l:"Kraftig snø",i:"❄️"}, 77:{l:"Snøkorn",i:"❄️"},
+  80:{l:"Regnbyger",i:"🌦️"}, 81:{l:"Regnbyger",i:"🌦️"}, 82:{l:"Kraftige byger",i:"⛈️"},
+  85:{l:"Snøbyger",i:"🌨️"}, 86:{l:"Snøbyger",i:"🌨️"},
+  95:{l:"Torden",i:"⛈️"}, 96:{l:"Torden med hagl",i:"⛈️"}, 99:{l:"Torden med hagl",i:"⛈️"}
+};
+function wmoInfo(code){ return WMO[code] || {l:"—", i:"·"}; }
+
+async function fetchWeather(){
+  weatherStatus = 'loading';
+  try{
+    const {lat,lon} = weatherLocation;
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max,windspeed_10m_max&timezone=auto&forecast_days=4`;
+    const res = await fetch(url);
+    if(!res.ok) throw new Error('bad response');
+    const data = await res.json();
+    weatherData = {
+      fetchedAt: Date.now(),
+      current: {
+        temp: Math.round(data.current_weather.temperature),
+        wind: Math.round(data.current_weather.windspeed),
+        code: data.current_weather.weathercode
+      },
+      daily: data.daily.time.map((date,i)=>({
+        date,
+        max: Math.round(data.daily.temperature_2m_max[i]),
+        min: Math.round(data.daily.temperature_2m_min[i]),
+        precipProb: data.daily.precipitation_probability_max[i],
+        wind: Math.round(data.daily.windspeed_10m_max[i]),
+        code: data.daily.weathercode[i]
+      }))
+    };
+    weatherStatus = 'ok';
+  }catch(e){
+    weatherStatus = 'error';
+  }
+}
+
+async function geocodeSearch(query){
+  try{
+    const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=no&format=json`);
+    const data = await res.json();
+    return (data.results||[]).map(r=>({
+      name: r.name + (r.admin1 ? ", "+r.admin1 : ""),
+      lat: r.latitude, lon: r.longitude
+    }));
+  }catch(e){ return []; }
+}
+
+/* ============ STRAVA ============ */
+const STRAVA_FN_URL = './strava-auth';
+let stravaConfig = null;   // {clientId}
+let stravaTokens = null;   // {access_token, refresh_token, expires_at, athleteName}
+let stravaActivities = null;
+let stravaStatus = 'idle'; // idle | loading | ok | error | not-configured
+
+async function loadStrava(){
+  stravaConfig = await store.get('strava-config');
+  stravaTokens = await store.get('strava-tokens');
+}
+
+function stravaRedirectUri(){
+  return window.location.origin + window.location.pathname;
+}
+
+function stravaConnect(){
+  if(!stravaConfig || !stravaConfig.clientId) return;
+  const url = `https://www.strava.com/oauth/authorize?client_id=${stravaConfig.clientId}&redirect_uri=${encodeURIComponent(stravaRedirectUri())}&response_type=code&scope=activity:read_all&approval_prompt=auto`;
+  window.location.href = url;
+}
+
+async function stravaDisconnect(){
+  stravaTokens = null;
+  stravaActivities = null;
+  stravaStatus = 'idle';
+  await store.set('strava-tokens', null);
+}
+
+async function stravaHandleOAuthCallback(){
+  const params = new URLSearchParams(window.location.search);
+  const code = params.get('code');
+  if(!code) return false;
+  // fjern koden fra URL-en med en gang, uansett utfall
+  window.history.replaceState({}, '', window.location.pathname);
+  try{
+    const res = await fetch(STRAVA_FN_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({code})
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error || 'oauth feilet');
+    stravaTokens = {
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
+      expires_at: data.expires_at,
+      athleteName: data.athlete ? (data.athlete.firstname+' '+data.athlete.lastname).trim() : ''
+    };
+    await store.set('strava-tokens', stravaTokens);
+    return true;
+  }catch(e){
+    stravaStatus = 'error';
+    return false;
+  }
+}
+
+async function stravaEnsureToken(){
+  if(!stravaTokens) return null;
+  if(Date.now()/1000 < stravaTokens.expires_at - 60) return stravaTokens.access_token;
+  try{
+    const res = await fetch(STRAVA_FN_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({refresh_token: stravaTokens.refresh_token})
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error('refresh feilet');
+    stravaTokens = {
+      access_token: data.access_token,
+      refresh_token: data.refresh_token,
+      expires_at: data.expires_at,
+      athleteName: stravaTokens.athleteName
+    };
+    await store.set('strava-tokens', stravaTokens);
+    return stravaTokens.access_token;
+  }catch(e){
+    return null;
+  }
+}
+
+async function fetchStravaActivities(){
+  stravaStatus = 'loading';
+  const token = await stravaEnsureToken();
+  if(!token){ stravaStatus = 'error'; return; }
+  try{
+    const res = await fetch('https://www.strava.com/api/v3/athlete/activities?per_page=15', {
+      headers:{ Authorization: 'Bearer '+token }
+    });
+    if(!res.ok) throw new Error('activities feilet');
+    const data = await res.json();
+    stravaActivities = data.filter(a => a.type==='Run' || a.sport_type==='Run');
+    stravaStatus = 'ok';
+  }catch(e){
+    stravaStatus = 'error';
+  }
+}
+
+function paceFromSeconds(distanceM, movingSec){
+  if(!distanceM) return '–';
+  const secPerKm = movingSec / (distanceM/1000);
+  const m = Math.floor(secPerKm/60), s = Math.round(secPerKm%60);
+  return m+':'+String(s).padStart(2,'0')+'/km';
+}
+function durationFmt(sec){
+  const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = sec%60;
+  return h>0 ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${m}:${String(s).padStart(2,'0')}`;
+}
+
+/* ============ NUTRITION CALC ============ */
+function calcTargets(){
+  if(!profile) return null;
+  const {weight,height,age,sex} = profile;
+  let bmr = sex==='m'
+    ? 10*weight + 6.25*height - 5*age + 5
+    : 10*weight + 6.25*height - 5*age - 161;
+  const wIdx = currentWeekIndex();
+  const week = wIdx+1;
+  const inBase = week <= 12;
+  const inTaperOrRace = week >= 27;
+  const activityFactor = inTaperOrRace ? 1.5 : (week<=8 ? 1.55 : 1.7);
+  let tdee = bmr * activityFactor;
+  let target = tdee;
+  let note = "Vedlikehold — kroppen trenger drivstoff til treningen.";
+  if(inBase){
+    target = tdee - 350;
+    note = "Moderat underskudd (~350 kcal) for gradvis vektnedgang mens belastningen er lavere.";
+  } else if(inTaperOrRace){
+    target = tdee + (week>=29? 250:0);
+    note = week>=29 ? "Karboopplading — litt i overskudd de siste dagene før løpet." : "Vedlikehold i nedtrappingen — ikke kutt kalorier nå.";
+  }
+  const protein = weight*1.8;
+  const fat = target*0.28/9;
+  const carbs = (target - protein*4 - fat*9)/4;
+  return {
+    bmr:Math.round(bmr), tdee:Math.round(tdee), target:Math.round(target),
+    protein:Math.round(protein), fat:Math.round(fat), carbs:Math.round(carbs), note
+  };
+}
+
+/* ============ RENDER: DASHBOARD ============ */
+let locSearchTimer = null;
+
+function locSearchBlockHtml(){
+  return `<div class="loc-search" id="locSearch">
+    <input type="text" id="locInput" placeholder="Søk sted, f.eks. Fredrikstad">
+    <div id="locResults"></div>
+  </div>`;
+}
+
+function weatherCardHtml(){
+  const locBtn = `<button class="weather-loc" id="locToggle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.5 7-12a7 7 0 10-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.3"/></svg>${weatherLocation.name}
+    </button>`;
+
+  if(weatherStatus==='loading' || weatherStatus==='idle'){
+    return `<div class="card" id="weatherCard">
+      <div class="weather-top">${locBtn}</div>
+      <div class="weather-msg">Henter vær…</div>
+      ${locSearchBlockHtml()}
+    </div>`;
+  }
+  if(weatherStatus==='error'){
+    return `<div class="card" id="weatherCard">
+      <div class="weather-top">${locBtn}</div>
+      <div class="weather-msg">Fikk ikke hentet værdata her. Fungerer når siden er hostet (GitHub Pages/Netlify) — i Claude-forhåndsvisningen kan eksterne kall være blokkert.</div>
+      ${locSearchBlockHtml()}
+    </div>`;
+  }
+  const c = weatherData.current;
+  const ci = wmoInfo(c.code);
+  const days = weatherData.daily.map((d,i)=>{
+    const di = wmoInfo(d.code);
+    const label = i===0 ? 'I dag' : new Date(d.date+'T12:00:00').toLocaleDateString('nb-NO',{weekday:'short'});
+    return `<div class="weather-day">
+      <div class="d">${label}</div>
+      <div class="i">${di.i}</div>
+      <div class="t">${d.max}°</div>
+      <div class="tmin">${d.min}°</div>
+      <div class="p">${d.precipProb}%</div>
+    </div>`;
+  }).join('');
+  return `<div class="card" id="weatherCard">
+    <div class="weather-top">${locBtn}</div>
+    <div class="weather-now">
+      <div class="icon">${ci.i}</div>
+      <div>
+        <div class="temp">${c.temp}°</div>
+        <div class="desc">${ci.l}</div>
+        <div class="wind">${c.wind} m/s vind</div>
+      </div>
+    </div>
+    <div class="weather-days">${days}</div>
+    ${locSearchBlockHtml()}
+  </div>`;
+}
+
+function wireWeatherCard(){
+  const toggle = document.getElementById('locToggle');
+  const search = document.getElementById('locSearch');
+  if(!toggle) return;
+  toggle.addEventListener('click', ()=> search.classList.toggle('open'));
+  const input = document.getElementById('locInput');
+  const results = document.getElementById('locResults');
+  input.addEventListener('input', ()=>{
+    clearTimeout(locSearchTimer);
+    const q = input.value.trim();
+    if(q.length<2){ results.innerHTML=''; return; }
+    locSearchTimer = setTimeout(async ()=>{
+      const found = await geocodeSearch(q);
+      results.innerHTML = found.map((r,i)=>`<div class="loc-result" data-i="${i}">${r.name}</div>`).join('') || `<div class="weather-msg">Ingen treff</div>`;
+      results.querySelectorAll('.loc-result').forEach(el=>{
+        el.addEventListener('click', async ()=>{
+          const loc = found[parseInt(el.dataset.i)];
+          weatherLocation = loc;
+          weatherStatus = 'idle';
+          weatherData = null;
+          await store.set('weather-location', loc);
+          renderDashboard();
+        });
+      });
+    }, 400);
+  });
+}
+
+function renderDashboard(){
+  const idx = currentWeekIndex();
+  const wk = WEEKS[idx];
+  const now = new Date();
+  const daysLeft = Math.max(0, Math.ceil((RACE_DATE-now)/86400000));
+  const isRaceWeek = wk.week===TOTAL_WEEKS;
+
+  let sessionsHtml = wk.sessions.map(s=>{
+    const key = 'w'+wk.week+'-'+s.id;
+    const done = !!trainingLog[key];
+    return `
+      <div class="session-row">
+        <div class="check ${done?'done':''}" data-key="${key}"></div>
+        <div class="session-body">
+          <div class="session-label ${done?'done-text':''}">${s.label} ${s.km?('· '+s.km+' km'):''}</div>
+          <div class="session-detail">${s.desc}</div>
+          <div class="session-pace">${s.pace}</div>
+        </div>
+      </div>`;
+  }).join('');
+
+  document.getElementById('content').innerHTML = `
+    <div class="hero">
+      <div class="race-name">${RACE_NAME} · mål ${GOAL_TIME}</div>
+      <div class="countdown">${daysLeft}</div>
+      <div class="countdown-label">dager igjen</div>
+      <div class="hero-meta">
+        <div><div class="n">Uke ${wk.week}/${TOTAL_WEEKS}</div><div class="l">${wk.phaseName}</div></div>
+        <div><div class="n">${wk.total.toFixed(0)} km</div><div class="l">denne uken</div></div>
+        <div><div class="n">${GOAL_PACE}</div><div class="l">målfart</div></div>
+      </div>
+    </div>
+    ${weatherCardHtml()}
+    <div class="card">
+      <span class="phase-pill">${isRaceWeek ? 'Løpsuke' : wk.phaseName}</span>
+      <div class="card-title">${fmtDate(wk.start)} – ${fmtDate(wk.end)}</div>
+      <div class="card-sub">${isRaceWeek ? 'Kort og rolig frem til start — kroppen er klar.' : '3 løpeøkter + 1 styrkeøkt denne uken. Fordel dem på dagene som passer deg.'}</div>
+      ${sessionsHtml}
+    </div>
+  `;
+  document.querySelectorAll('.check').forEach(el=>{
+    el.addEventListener('click', async ()=>{
+      const key = el.dataset.key;
+      trainingLog[key] = !trainingLog[key];
+      await store.set('training-log', trainingLog);
+      renderDashboard();
+    });
+  });
+  wireWeatherCard();
+  if(weatherStatus==='idle'){
+    fetchWeather().then(()=>{
+      const active = document.querySelector('.tab.active');
+      if(active && active.dataset.tab==='dashboard') renderDashboard();
+    });
+  }
+}
+
+/* ============ RENDER: PLAN ============ */
+function renderPlan(){
+  const idx = currentWeekIndex();
+  let html = `
+    <div class="card">
+      <div class="card-title">Fartsguide</div>
+      <div class="card-sub">3 løpeøkter + 1 styrkeøkt per uke, gjennom hele opplegget</div>
+      <table class="pace-table">
+        <tr><td>Rolig</td><td>5:50–6:20/km</td></tr>
+        <tr><td>Langtur</td><td>5:20–6:20/km</td></tr>
+        <tr><td>Terskel</td><td>5:15–5:25/km</td></tr>
+        <tr><td>Intervall (5K)</td><td>4:35–4:45/km</td></tr>
+        <tr><td>Målfart (1:45)</td><td>4:55–5:00/km</td></tr>
+      </table>
+    </div>
+  `;
+  html += '<div class="weeks-wrap">';
+  WEEKS.forEach((wk,i)=>{
+    const isCurrent = i===idx;
+    const sessions = wk.sessions.map(s=>`
+      <div class="session-row">
+        <div class="session-body">
+          <div class="session-label">${s.label} ${s.km?('· '+s.km+' km'):''}</div>
+          <div class="session-detail">${s.desc}</div>
+          <div class="session-pace">${s.pace}</div>
+        </div>
+      </div>`).join('');
+    html += `
+      <div class="week-card ${isCurrent?'current':''}">
+        <div class="week-head" data-week="${wk.week}">
+          <div class="wk">${wk.week}</div>
+          <div class="wk-info">
+            <div class="wk-phase">${wk.phaseName}${isCurrent?' <span class="current-flag">· NÅ</span>':''}</div>
+            <div class="wk-range">${fmtDate(wk.start)} – ${fmtDate(wk.end)}</div>
+          </div>
+          <div class="wk-total">${wk.total.toFixed(0)} km</div>
+          <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="week-body" id="wb-${wk.week}">${sessions}</div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  document.getElementById('content').innerHTML = html;
+  document.querySelectorAll('.week-head').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const w = el.dataset.week;
+      document.getElementById('wb-'+w).classList.toggle('open');
+      el.querySelector('.chev').classList.toggle('open');
+    });
+  });
+  // Auto-open current week
+  const cur = WEEKS[idx].week;
+  const body = document.getElementById('wb-'+cur);
+  if(body){ body.classList.add('open'); document.querySelector(`.week-head[data-week="${cur}"] .chev`).classList.add('open'); }
+}
+
+/* ============ RENDER: KOSTHOLD ============ */
+function renderKosthold(){
+  const t = calcTargets();
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <div class="card-title">Din profil</div>
+      <div class="card-sub">Brukes til å beregne kaloribehov — lagres kun på denne enheten</div>
+      <div class="input-row">
+        <div class="input-group"><label>Vekt (kg)</label><input type="number" id="pWeight" value="${profile?profile.weight:''}"></div>
+        <div class="input-group"><label>Høyde (cm)</label><input type="number" id="pHeight" value="${profile?profile.height:''}"></div>
+      </div>
+      <div class="input-row">
+        <div class="input-group"><label>Alder</label><input type="number" id="pAge" value="${profile?profile.age:''}"></div>
+        <div class="input-group"><label>Kjønn</label>
+          <select id="pSex">
+            <option value="m" ${profile&&profile.sex==='m'?'selected':''}>Mann</option>
+            <option value="f" ${profile&&profile.sex==='f'?'selected':''}>Kvinne</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" id="saveProfile">Beregn kaloribehov</button>
+    </div>
+
+    ${t ? `
+    <div class="card">
+      <span class="phase-pill">Uke ${currentWeekIndex()+1} av ${TOTAL_WEEKS}</span>
+      <div class="card-sub" style="margin-top:4px;">${t.note}</div>
+      <div class="kcal-big">${t.target}</div>
+      <div class="card-sub" style="margin-bottom:0;">kcal/dag anbefalt</div>
+      <div class="macro-bar">
+        <span style="width:${(t.protein*4/t.target*100).toFixed(0)}%;background:var(--accent);"></span>
+        <span style="width:${(t.carbs*4/t.target*100).toFixed(0)}%;background:var(--gold);"></span>
+        <span style="width:${(t.fat*9/t.target*100).toFixed(0)}%;background:var(--primary-soft);"></span>
+      </div>
+      <div class="macro-legend">
+        <div><span class="dot" style="background:var(--accent);"></span><span class="v">${t.protein}g</span><br><span class="l">Protein</span></div>
+        <div><span class="dot" style="background:var(--gold);"></span><span class="v">${t.carbs}g</span><br><span class="l">Karbo</span></div>
+        <div><span class="dot" style="background:var(--primary-soft);"></span><span class="v">${t.fat}g</span><br><span class="l">Fett</span></div>
+      </div>
+    </div>` : `
+    <div class="card"><div class="empty-state">Fyll inn profilen din for å se anbefalt kaloriinntak og makrofordeling.</div></div>
+    `}
+
+    <div class="card">
+      <div class="card-title">Slik legges vekten opp</div>
+      <ul class="tip-list">
+        <li><b>Uke 1–12 (oppbygging):</b> lite kaloriunderskudd — de 5 kiloene kommer gradvis mens belastningen er lav.</li>
+        <li><b>Uke 13–26 (bygging/spesifikk):</b> vedlikehold — ikke diett når du løper mest, kroppen trenger drivstoffet.</li>
+        <li><b>Uke 27–29 (nedtrapping/løp):</b> vedlikehold, med karboopplading de 2–3 siste dagene før start.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Løpsdagen — ernæring</div>
+      <ul class="tip-list">
+        <li><b>2–3 timer før start:</b> Havregrøt eller loff med syltetøy/banan, ca. 1–1,5 g karbo per kg kroppsvekt. Unngå mye fiber og fett.</li>
+        <li><b>Under løpet:</b> Gel eller sportsdrikke fra ca. 40–45 min, deretter hver 30–40 min. Vann/sportsdrikke ved hver post.</li>
+        <li><b>Etter mål:</b> Karbo + protein innen 30–60 minutter — f.eks. sjokolademelk eller en solid smoothie.</li>
+        <li><b>Dagene før:</b> Øk karboandelen litt (karboopplading), hold væskeinntaket jevnt, unngå nye/uvante matvarer.</li>
+      </ul>
+    </div>
+  `;
+
+  document.getElementById('saveProfile').addEventListener('click', async ()=>{
+    const weight = parseFloat(document.getElementById('pWeight').value);
+    const height = parseFloat(document.getElementById('pHeight').value);
+    const age = parseFloat(document.getElementById('pAge').value);
+    const sex = document.getElementById('pSex').value;
+    if(!weight || !height || !age){ return; }
+    profile = {weight,height,age,sex};
+    await store.set('profile', profile);
+    renderKosthold();
+  });
+}
+
+/* ============ RENDER: FREMGANG ============ */
+function drawWeightChart(canvas, data){
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  canvas.width = w*dpr; canvas.height = h*dpr;
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,w,h);
+  if(data.length < 2) return;
+  const vals = data.map(d=>d.kg);
+  const min = Math.min(...vals)-0.5, max = Math.max(...vals)+0.5;
+  const pad = 8;
+  const x = i => pad + i*(w-2*pad)/(data.length-1);
+  const y = v => h-pad - (v-min)/(max-min)*(h-2*pad);
+  ctx.beginPath();
+  data.forEach((d,i)=>{ const px=x(i), py=y(d.kg); if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py); });
+  ctx.strokeStyle = '#C7473A'; ctx.lineWidth = 2.2; ctx.stroke();
+  data.forEach((d,i)=>{
+    ctx.beginPath(); ctx.arc(x(i), y(d.kg), 3, 0, 7);
+    ctx.fillStyle = '#173B3C'; ctx.fill();
+  });
+}
+
+function stravaCardHtml(){
+  if(!stravaConfig || !stravaConfig.clientId){
+    return `<div class="card">
+      <div class="card-title">Strava</div>
+      <div class="card-sub">Hent løpeturene dine automatisk (Garmin synker som regel selv til Strava)</div>
+      <div class="input-group"><label>Strava Client ID</label><input type="text" id="stravaClientId" placeholder="f.eks. 123456"></div>
+      <button class="btn strava-btn" id="stravaSaveConfig" style="margin-top:8px;">Lagre</button>
+      <div class="weather-msg" style="margin-top:8px;">Krever en gratis API-app på strava.com/settings/api, og at STRAVA_CLIENT_ID/STRAVA_CLIENT_SECRET er lagt inn som miljøvariabler i Cloudflare Pages.</div>
+    </div>`;
+  }
+  if(!stravaTokens){
+    return `<div class="card">
+      <div class="card-title">Strava</div>
+      <div class="card-sub">Koble til for å se løpeturene dine her</div>
+      <button class="btn strava-btn" id="stravaConnectBtn">Koble til Strava</button>
+    </div>`;
+  }
+  const idx = currentWeekIndex();
+  const wk = WEEKS[idx];
+  let weekKm = 0;
+  if(stravaActivities){
+    weekKm = stravaActivities
+      .filter(a=>{ const d=new Date(a.start_date_local); return d>=wk.start && d<=new Date(wk.end.getTime()+86400000); })
+      .reduce((s,a)=>s+a.distance/1000,0);
+  }
+  let list = '';
+  if(stravaStatus==='loading'){
+    list = `<div class="weather-msg">Henter aktiviteter…</div>`;
+  } else if(stravaStatus==='error'){
+    list = `<div class="weather-msg">Fikk ikke hentet aktiviteter. Prøv oppdater-knappen igjen.</div>`;
+  } else if(stravaActivities){
+    list = stravaActivities.slice(0,8).map(a=>`
+      <div class="log-row">
+        <span class="d">${new Date(a.start_date_local).toLocaleDateString('nb-NO',{day:'numeric',month:'short'})} · ${a.name}</span>
+        <span class="w">${(a.distance/1000).toFixed(1)} km · ${paceFromSeconds(a.distance,a.moving_time)}</span>
+      </div>
+    `).join('') || `<div class="empty-state">Ingen løpeturer funnet.</div>`;
+  }
+  return `<div class="card">
+    <div class="card-top-row">
+      <div>
+        <div class="card-title">Strava${stravaTokens.athleteName?' · '+stravaTokens.athleteName:''}</div>
+        <div class="card-sub" style="margin-bottom:0;">${weekKm.toFixed(1)} / ${wk.total.toFixed(0)} km denne uken</div>
+      </div>
+      <button class="icon-btn" id="stravaRefresh" title="Oppdater">⟳</button>
+    </div>
+    ${list}
+    <button class="btn secondary" id="stravaDisconnect" style="margin-top:12px;">Koble fra Strava</button>
+  </div>`;
+}
+
+function renderFremgang(){
+  const totalSessions = WEEKS.reduce((a,w)=>a+w.sessions.length,0);
+  const doneSessions = Object.values(trainingLog).filter(Boolean).length;
+  const weightChange = weightLog.length>=2 ? (weightLog[weightLog.length-1].kg - weightLog[0].kg) : null;
+
+  document.getElementById('content').innerHTML = `
+    <div class="card">
+      <div class="stat-strip">
+        <div class="stat"><div class="v">${doneSessions}/${totalSessions}</div><div class="l">Økter fullført</div></div>
+        <div class="stat"><div class="v">${weightChange!==null ? (weightChange>0?'+':'')+weightChange.toFixed(1) : '–'}</div><div class="l">kg endring</div></div>
+      </div>
+    </div>
+    ${stravaCardHtml()}
+    <div class="card">
+      <div class="card-title">Vektlogg</div>
+      <div class="card-sub">Loggfør ukentlig, gjerne samme dag/tidspunkt</div>
+      <div class="weight-form">
+        <div class="input-group"><label>Vekt i dag (kg)</label><input type="number" step="0.1" id="wInput" placeholder="f.eks. 82.4"></div>
+        <button class="btn" id="wSave">Logg</button>
+      </div>
+      ${weightLog.length ? `<canvas id="weightChart"></canvas>` : `<div class="empty-state">Ingen målinger enda.</div>`}
+    </div>
+    ${weightLog.length ? `
+    <div class="card">
+      <div class="card-title">Siste målinger</div>
+      ${weightLog.slice().reverse().slice(0,8).map(d=>`
+        <div class="log-row"><span class="d">${new Date(d.date).toLocaleDateString('nb-NO',{day:'numeric',month:'short'})}</span><span class="w">${d.kg} kg</span></div>
+      `).join('')}
+    </div>` : ''}
+  `;
+
+  if(weightLog.length){
+    const canvas = document.getElementById('weightChart');
+    requestAnimationFrame(()=>drawWeightChart(canvas, weightLog));
+  }
+
+  document.getElementById('wSave').addEventListener('click', async ()=>{
+    const val = parseFloat(document.getElementById('wInput').value);
+    if(!val) return;
+    weightLog.push({date:new Date().toISOString(), kg:val});
+    await store.set('weight-log', weightLog);
+    renderFremgang();
+  });
+
+  const saveCfg = document.getElementById('stravaSaveConfig');
+  if(saveCfg) saveCfg.addEventListener('click', async ()=>{
+    const id = document.getElementById('stravaClientId').value.trim();
+    if(!id) return;
+    stravaConfig = {clientId:id};
+    await store.set('strava-config', stravaConfig);
+    renderFremgang();
+  });
+  const connectBtn = document.getElementById('stravaConnectBtn');
+  if(connectBtn) connectBtn.addEventListener('click', stravaConnect);
+  const refreshBtn = document.getElementById('stravaRefresh');
+  if(refreshBtn) refreshBtn.addEventListener('click', async ()=>{ await fetchStravaActivities(); renderFremgang(); });
+  const disconnectBtn = document.getElementById('stravaDisconnect');
+  if(disconnectBtn) disconnectBtn.addEventListener('click', async ()=>{ await stravaDisconnect(); renderFremgang(); });
+
+  if(stravaTokens && !stravaActivities && stravaStatus==='idle'){
+    fetchStravaActivities().then(()=>{
+      const active = document.querySelector('.tab.active');
+      if(active && active.dataset.tab==='fremgang') renderFremgang();
+    });
+  }
+}
+
+/* ============ TAB SWITCHING ============ */
+const renderers = {dashboard:renderDashboard, plan:renderPlan, kosthold:renderKosthold, fremgang:renderFremgang};
+function setTab(tab){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active', b.dataset.tab===tab));
+  const wk = WEEKS[currentWeekIndex()];
+  document.getElementById('topbarWeek').textContent = 'Uke '+wk.week+'/'+TOTAL_WEEKS;
+  renderers[tab]();
+}
+document.querySelectorAll('.tab').forEach(b=>{
+  b.addEventListener('click', ()=>setTab(b.dataset.tab));
+});
+
+/* ============ INIT ============ */
+(async function init(){
+  await loadAll();
+  const cameFromStrava = window.location.search.includes('code=');
+  if(cameFromStrava){
+    await stravaHandleOAuthCallback();
+    setTab('fremgang');
+  } else {
+    setTab('dashboard');
+  }
+  if('serviceWorker' in navigator){
+    try{ navigator.serviceWorker.register('service-worker.js'); }catch(e){}
+  }
+})();
+
+})();
+</script>
+</body>
+</html>
