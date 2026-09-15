@@ -56,7 +56,7 @@
     box-shadow:0 0 40px rgba(0,0,0,.18);
   }
   #topbar{
-    padding:18px 20px 14px;
+    padding:calc(14px + env(safe-area-inset-top)) 20px 14px;
     display:flex;
     align-items:baseline;
     justify-content:space-between;
@@ -147,56 +147,58 @@
   .hero .hero-meta .l{font-size:10.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-faint);}
 
   /* ---- Weather ---- */
+  .weather-card{padding:12px 15px;}
   .weather-top{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom:2px;
   }
   .weather-loc{
-    font-size:12.5px;
+    font-size:11.5px;
+    font-weight:600;
     color:var(--ink-soft);
     display:flex;
     align-items:center;
-    gap:5px;
+    gap:4px;
     cursor:pointer;
     background:none;
     border:none;
     font-family:inherit;
     padding:0;
   }
-  .weather-loc svg{width:13px;height:13px;opacity:.6;}
+  .weather-loc svg{width:11px;height:11px;opacity:.6;}
   .weather-now{
     display:flex;
     align-items:center;
-    gap:14px;
-    margin-top:10px;
+    gap:10px;
+    margin-top:6px;
   }
-  .weather-now .icon{font-size:34px;line-height:1;}
+  .weather-now .icon{font-size:22px;line-height:1;}
   .weather-now .temp{
     font-family:'Big Shoulders Display',sans-serif;
-    font-weight:600;
-    font-size:32px;
+    font-weight:700;
+    font-size:22px;
     color:var(--ink);
   }
-  .weather-now .desc{font-size:12.5px;color:var(--ink-soft);}
-  .weather-now .wind{font-size:11px;color:var(--ink-faint);}
+  .weather-now .desc{font-size:11.5px;color:var(--ink-soft);}
+  .weather-now .wind{font-size:10.5px;color:var(--ink-faint);}
+  .weather-now .now-text{display:flex;flex-direction:column;gap:0;}
   .weather-days{
     display:flex;
-    margin-top:14px;
-    padding-top:12px;
+    margin-top:8px;
+    padding-top:8px;
     border-top:1px solid var(--line-soft);
   }
   .weather-day{
     flex:1;
     text-align:center;
   }
-  .weather-day .d{font-size:11px;color:var(--ink-faint);text-transform:capitalize;}
-  .weather-day .i{font-size:19px;margin:3px 0;}
-  .weather-day .t{font-size:12px;font-weight:600;color:var(--ink);}
-  .weather-day .tmin{font-size:11px;color:var(--ink-faint);}
-  .weather-day .p{font-size:10.5px;color:var(--gold);margin-top:1px;}
-  .loc-search{margin-top:10px;display:none;}
+  .weather-day .d{font-size:9.5px;color:var(--ink-faint);text-transform:capitalize;}
+  .weather-day .i{font-size:14px;margin:2px 0;}
+  .weather-day .t{font-size:11px;font-weight:600;color:var(--ink);}
+  .weather-day .tmin{font-size:10px;color:var(--ink-faint);}
+  .weather-day .p{font-size:9.5px;color:var(--gold);margin-top:0;}
+  .loc-search{margin-top:8px;display:none;}
   .loc-search.open{display:block;}
   .loc-search input{
     width:100%;
@@ -730,6 +732,7 @@ let stravaConfig = null;   // {clientId}
 let stravaTokens = null;   // {access_token, refresh_token, expires_at, athleteName}
 let stravaActivities = null;
 let stravaStatus = 'idle'; // idle | loading | ok | error | not-configured
+let stravaErrorMsg = null;
 
 async function loadStrava(){
   stravaConfig = await store.get('strava-config');
@@ -750,12 +753,27 @@ async function stravaDisconnect(){
   stravaTokens = null;
   stravaActivities = null;
   stravaStatus = 'idle';
+  stravaErrorMsg = null;
   await store.set('strava-tokens', null);
+}
+
+function stravaErrText(data){
+  if(!data) return 'Ukjent feil';
+  if(data.message) return data.message + (data.errors ? ' — ' + JSON.stringify(data.errors) : '');
+  if(data.error) return data.error;
+  return 'Ukjent feil';
 }
 
 async function stravaHandleOAuthCallback(){
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
+  const oauthError = params.get('error');
+  if(oauthError){
+    window.history.replaceState({}, '', window.location.pathname);
+    stravaStatus = 'error';
+    stravaErrorMsg = 'Du avviste tilgangen i Strava ('+oauthError+').';
+    return false;
+  }
   if(!code) return false;
   // fjern koden fra URL-en med en gang, uansett utfall
   window.history.replaceState({}, '', window.location.pathname);
@@ -766,7 +784,7 @@ async function stravaHandleOAuthCallback(){
       body: JSON.stringify({code})
     });
     const data = await res.json();
-    if(!res.ok) throw new Error(data.error || 'oauth feilet');
+    if(!res.ok) throw new Error(stravaErrText(data));
     stravaTokens = {
       access_token: data.access_token,
       refresh_token: data.refresh_token,
@@ -774,9 +792,11 @@ async function stravaHandleOAuthCallback(){
       athleteName: data.athlete ? (data.athlete.firstname+' '+data.athlete.lastname).trim() : ''
     };
     await store.set('strava-tokens', stravaTokens);
+    stravaErrorMsg = null;
     return true;
   }catch(e){
     stravaStatus = 'error';
+    stravaErrorMsg = e.message || String(e);
     return false;
   }
 }
@@ -834,9 +854,15 @@ function durationFmt(sec){
 }
 
 /* ============ NUTRITION CALC ============ */
+function latestWeight(){
+  if(!weightLog.length) return null;
+  return weightLog[weightLog.length-1].kg;
+}
+
 function calcTargets(){
-  if(!profile) return null;
-  const {weight,height,age,sex} = profile;
+  const weight = latestWeight();
+  if(!profile || !weight) return null;
+  const {height,age,sex} = profile;
   let bmr = sex==='m'
     ? 10*weight + 6.25*height - 5*age + 5
     : 10*weight + 6.25*height - 5*age - 161;
@@ -860,7 +886,7 @@ function calcTargets(){
   const carbs = (target - protein*4 - fat*9)/4;
   return {
     bmr:Math.round(bmr), tdee:Math.round(tdee), target:Math.round(target),
-    protein:Math.round(protein), fat:Math.round(fat), carbs:Math.round(carbs), note
+    protein:Math.round(protein), fat:Math.round(fat), carbs:Math.round(carbs), note, weight
   };
 }
 
@@ -880,16 +906,16 @@ function weatherCardHtml(){
     </button>`;
 
   if(weatherStatus==='loading' || weatherStatus==='idle'){
-    return `<div class="card" id="weatherCard">
+    return `<div class="card weather-card" id="weatherCard">
       <div class="weather-top">${locBtn}</div>
       <div class="weather-msg">Henter vær…</div>
       ${locSearchBlockHtml()}
     </div>`;
   }
   if(weatherStatus==='error'){
-    return `<div class="card" id="weatherCard">
+    return `<div class="card weather-card" id="weatherCard">
       <div class="weather-top">${locBtn}</div>
-      <div class="weather-msg">Fikk ikke hentet værdata her. Fungerer når siden er hostet (GitHub Pages/Netlify) — i Claude-forhåndsvisningen kan eksterne kall være blokkert.</div>
+      <div class="weather-msg">Fikk ikke hentet værdata her.</div>
       ${locSearchBlockHtml()}
     </div>`;
   }
@@ -906,14 +932,15 @@ function weatherCardHtml(){
       <div class="p">${d.precipProb}%</div>
     </div>`;
   }).join('');
-  return `<div class="card" id="weatherCard">
-    <div class="weather-top">${locBtn}</div>
-    <div class="weather-now">
-      <div class="icon">${ci.i}</div>
-      <div>
-        <div class="temp">${c.temp}°</div>
-        <div class="desc">${ci.l}</div>
-        <div class="wind">${c.wind} m/s vind</div>
+  return `<div class="card weather-card" id="weatherCard">
+    <div class="weather-top">
+      ${locBtn}
+      <div class="weather-now" style="margin-top:0;">
+        <div class="icon">${ci.i}</div>
+        <div class="now-text">
+          <div class="temp">${c.temp}°</div>
+          <div class="wind">${ci.l} · ${c.wind} m/s</div>
+        </div>
       </div>
     </div>
     <div class="weather-days">${days}</div>
@@ -1080,29 +1107,31 @@ function renderPlan(){
 /* ============ RENDER: KOSTHOLD ============ */
 function renderKosthold(){
   const t = calcTargets();
+  const w = latestWeight();
   document.getElementById('content').innerHTML = `
     <div class="card">
       <div class="card-title">Din profil</div>
-      <div class="card-sub">Brukes til å beregne kaloribehov — lagres kun på denne enheten</div>
+      <div class="card-sub">Vekt hentes automatisk fra vektloggen i Fremgang — lagres kun på denne enheten</div>
       <div class="input-row">
-        <div class="input-group"><label>Vekt (kg)</label><input type="number" id="pWeight" value="${profile?profile.weight:''}"></div>
-        <div class="input-group"><label>Høyde (cm)</label><input type="number" id="pHeight" value="${profile?profile.height:''}"></div>
+        <div class="input-group"><label>Høyde (cm)</label><input type="number" id="pHeight" value="${profile?profile.height:185}"></div>
+        <div class="input-group"><label>Alder</label><input type="number" id="pAge" value="${profile?profile.age:51}"></div>
       </div>
       <div class="input-row">
-        <div class="input-group"><label>Alder</label><input type="number" id="pAge" value="${profile?profile.age:''}"></div>
         <div class="input-group"><label>Kjønn</label>
           <select id="pSex">
-            <option value="m" ${profile&&profile.sex==='m'?'selected':''}>Mann</option>
+            <option value="m" ${!profile||profile.sex==='m'?'selected':''}>Mann</option>
             <option value="f" ${profile&&profile.sex==='f'?'selected':''}>Kvinne</option>
           </select>
         </div>
+        <div class="input-group"><label>Vekt (kg)</label><input type="text" value="${w?w+' kg (fra loggen)':'Ikke logget enda'}" disabled style="opacity:.6;"></div>
       </div>
       <button class="btn" id="saveProfile">Beregn kaloribehov</button>
+      ${!w ? `<div class="weather-msg" style="margin-top:8px;">Logg vekten din under Fremgang først, så beregnes kaloribehovet herfra automatisk.</div>` : ''}
     </div>
 
     ${t ? `
     <div class="card">
-      <span class="phase-pill">Uke ${currentWeekIndex()+1} av ${TOTAL_WEEKS}</span>
+      <span class="phase-pill">Uke ${currentWeekIndex()+1} av ${TOTAL_WEEKS} · ${t.weight} kg</span>
       <div class="card-sub" style="margin-top:4px;">${t.note}</div>
       <div class="kcal-big">${t.target}</div>
       <div class="card-sub" style="margin-bottom:0;">kcal/dag anbefalt</div>
@@ -1117,7 +1146,7 @@ function renderKosthold(){
         <div><span class="dot" style="background:var(--ink-faint);"></span><span class="v">${t.fat}g</span><br><span class="l">Fett</span></div>
       </div>
     </div>` : `
-    <div class="card"><div class="empty-state">Fyll inn profilen din for å se anbefalt kaloriinntak og makrofordeling.</div></div>
+    <div class="card"><div class="empty-state">Fyll inn profilen din og logg vekten din for å se anbefalt kaloriinntak.</div></div>
     `}
 
     <div class="card">
@@ -1141,12 +1170,11 @@ function renderKosthold(){
   `;
 
   document.getElementById('saveProfile').addEventListener('click', async ()=>{
-    const weight = parseFloat(document.getElementById('pWeight').value);
     const height = parseFloat(document.getElementById('pHeight').value);
     const age = parseFloat(document.getElementById('pAge').value);
     const sex = document.getElementById('pSex').value;
-    if(!weight || !height || !age){ return; }
-    profile = {weight,height,age,sex};
+    if(!height || !age){ return; }
+    profile = {height,age,sex};
     await store.set('profile', profile);
     renderKosthold();
   });
@@ -1189,7 +1217,9 @@ function stravaCardHtml(){
     return `<div class="card">
       <div class="card-title">Strava</div>
       <div class="card-sub">Koble til for å se løpeturene dine her</div>
+      ${stravaErrorMsg ? `<div class="weather-msg" style="color:var(--accent);margin-bottom:8px;">Feilet: ${stravaErrorMsg}</div>` : ''}
       <button class="btn strava-btn" id="stravaConnectBtn">Koble til Strava</button>
+      <button class="btn secondary" id="stravaEditConfig" style="margin-top:8px;">Endre Client ID</button>
     </div>`;
   }
   const idx = currentWeekIndex();
@@ -1280,6 +1310,12 @@ function renderFremgang(){
   });
   const connectBtn = document.getElementById('stravaConnectBtn');
   if(connectBtn) connectBtn.addEventListener('click', stravaConnect);
+  const editCfgBtn = document.getElementById('stravaEditConfig');
+  if(editCfgBtn) editCfgBtn.addEventListener('click', async ()=>{
+    stravaConfig = null;
+    await store.set('strava-config', null);
+    renderFremgang();
+  });
   const refreshBtn = document.getElementById('stravaRefresh');
   if(refreshBtn) refreshBtn.addEventListener('click', async ()=>{ await fetchStravaActivities(); renderFremgang(); });
   const disconnectBtn = document.getElementById('stravaDisconnect');
