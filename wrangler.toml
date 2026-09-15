@@ -1,0 +1,9 @@
+name = "halvmaraton-app"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+[assets]
+directory = "./"
+binding = "ASSETS"
+# Sørg for at worker.js selv ikke serveres som en statisk fil
+not_found_handling = "single-page-application"

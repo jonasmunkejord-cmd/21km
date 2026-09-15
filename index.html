@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Fredrikstad Halvmaraton — Opplegg</title>
-<meta name="theme-color" content="#15302D">
+<meta name="theme-color" content="#0D0F10">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Halvmaraton">
@@ -13,29 +13,31 @@
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#EEF2EF;
-    --surface:#FFFFFF;
-    --ink:#122023;
-    --ink-soft:#57696B;
-    --ink-faint:#93A29F;
-    --primary:#15302D;
-    --primary-soft:#25504F;
-    --accent:#B8483A;
-    --accent-soft:#F1DCD4;
-    --gold:#C68A3E;
-    --gold-soft:#F3E4C8;
-    --line:#DEE4E0;
-    --line-soft:#E9EDEA;
+    --bg:#0D0F10;
+    --surface:#17191A;
+    --surface2:#1E2122;
+    --ink:#F3F4F3;
+    --ink-soft:#9BA3A2;
+    --ink-faint:#5E6665;
+    --primary:#E6E9E8;
+    --primary-soft:#3A6B7A;
+    --accent:#FF4726;
+    --accent-dim:#FF472633;
+    --accent-soft:#3A211B;
+    --gold:#3F92B5;
+    --gold-soft:#132A33;
+    --line:rgba(255,255,255,.10);
+    --line-soft:rgba(255,255,255,.06);
     --radius:16px;
-    --shadow: 0 1px 1px rgba(18,32,35,.03), 0 6px 18px rgba(18,32,35,.05);
+    --shadow: 0 1px 0 rgba(255,255,255,.03) inset, 0 10px 26px rgba(0,0,0,.45);
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
-    background:#D7DEDA;
+    background:#000000;
     font-family:'Inter',system-ui,sans-serif;
     color:var(--ink);
     -webkit-font-smoothing:antialiased;
@@ -65,15 +67,18 @@
     border-bottom:1px solid var(--line-soft);
   }
   #topbar .brand{
-    font-family:'Fraunces',serif;
-    font-weight:600;
-    font-style:italic;
-    font-size:19px;
-    color:var(--primary);
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:800;
+    font-size:21px;
+    letter-spacing:.2px;
+    color:var(--ink);
+    text-transform:uppercase;
   }
   #topbar .sub{
-    font-size:11.5px;
-    color:var(--ink-faint);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.3px;
+    color:var(--accent);
   }
   main{
     flex:1;
@@ -89,50 +94,57 @@
   }
   /* ---- Dashboard hero ---- */
   .hero{
-    background:linear-gradient(160deg, var(--primary) 0%, #0E2B2C 100%);
-    color:#F3F6F4;
+    background:radial-gradient(120% 140% at 100% 0%, #2A1712 0%, #0D0F10 46%), #0D0F10;
+    color:#F3F4F3;
     border-radius:20px;
     padding:26px 22px 22px;
     margin-bottom:16px;
     position:relative;
     overflow:hidden;
+    border:1px solid rgba(255,255,255,.07);
   }
   .hero::after{
     content:"";
     position:absolute;
-    right:-40px; top:-40px;
-    width:160px;height:160px;
+    right:-50px; top:-50px;
+    width:200px;height:200px;
     border-radius:50%;
-    background:radial-gradient(circle, rgba(199,71,58,.35), transparent 70%);
+    background:radial-gradient(circle, rgba(255,71,38,.30), transparent 70%);
   }
   .hero .race-name{
-    font-size:13px;
-    letter-spacing:.2px;
-    color:#B9CBC7;
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:1.2px;
+    text-transform:uppercase;
+    color:var(--accent);
     margin-bottom:2px;
   }
   .hero .countdown{
-    font-family:'Fraunces',serif;
-    font-style:italic;
-    font-weight:600;
-    font-size:64px;
-    line-height:1;
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:800;
+    font-size:88px;
+    line-height:.9;
     margin:6px 0 2px;
+    letter-spacing:-1px;
   }
   .hero .countdown-label{
-    font-size:14px;
-    color:#D7E3E0;
+    font-size:12.5px;
+    font-weight:600;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    color:var(--ink-soft);
   }
   .hero .hero-meta{
     display:flex;
     gap:18px;
     margin-top:18px;
     padding-top:14px;
-    border-top:1px solid rgba(255,255,255,.14);
+    border-top:1px solid rgba(255,255,255,.08);
+    position:relative;
   }
   .hero .hero-meta div{flex:1;}
-  .hero .hero-meta .n{font-size:19px;font-weight:600;}
-  .hero .hero-meta .l{font-size:11.5px;color:#B9CBC7;}
+  .hero .hero-meta .n{font-family:'Big Shoulders Display',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.3px;}
+  .hero .hero-meta .l{font-size:10.5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-faint);}
 
   /* ---- Weather ---- */
   .weather-top{
@@ -162,8 +174,7 @@
   }
   .weather-now .icon{font-size:34px;line-height:1;}
   .weather-now .temp{
-    font-family:'Fraunces',serif;
-    font-style:italic;
+    font-family:'Big Shoulders Display',sans-serif;
     font-weight:600;
     font-size:32px;
     color:var(--ink);
@@ -184,7 +195,7 @@
   .weather-day .i{font-size:19px;margin:3px 0;}
   .weather-day .t{font-size:12px;font-weight:600;color:var(--ink);}
   .weather-day .tmin{font-size:11px;color:var(--ink-faint);}
-  .weather-day .p{font-size:10.5px;color:var(--primary-soft);margin-top:1px;}
+  .weather-day .p{font-size:10.5px;color:var(--gold);margin-top:1px;}
   .loc-search{margin-top:10px;display:none;}
   .loc-search.open{display:block;}
   .loc-search input{
@@ -194,7 +205,7 @@
     border:1px solid var(--line);
     font-family:inherit;
     font-size:13.5px;
-    background:#FAFBFA;
+    background:var(--surface2);
     margin-bottom:6px;
   }
   .loc-result{
@@ -203,7 +214,7 @@
     border-top:1px solid var(--line-soft);
     cursor:pointer;
   }
-  .loc-result:hover{color:var(--primary);}
+  .loc-result:hover{color:var(--accent);}
   .weather-msg{font-size:12.5px;color:var(--ink-faint);padding:8px 0;}
 
   /* ---- Strava ---- */
@@ -240,12 +251,14 @@
   }
   .phase-pill{
     display:inline-block;
-    font-size:11px;
-    font-weight:600;
-    padding:3px 9px;
+    font-size:10.5px;
+    font-weight:700;
+    letter-spacing:.4px;
+    text-transform:uppercase;
+    padding:4px 10px;
     border-radius:99px;
-    background:var(--gold-soft);
-    color:#8C5B15;
+    background:var(--accent-soft);
+    color:var(--accent);
     margin-bottom:8px;
   }
   .session-row{
@@ -267,8 +280,8 @@
     transition:background .15s, border-color .15s;
   }
   .check.done{
-    background:var(--primary);
-    border-color:var(--primary);
+    background:var(--accent);
+    border-color:var(--accent);
   }
   .check.done::after{
     content:"";
@@ -304,12 +317,15 @@
     font-family:inherit;
     padding:6px 2px;
     color:var(--ink-faint);
-    font-size:11px;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.4px;
+    text-transform:uppercase;
     cursor:pointer;
   }
   .tab svg{width:21px;height:21px;}
-  .tab.active{color:var(--primary);}
-  .tab.active svg{stroke:var(--primary);}
+  .tab.active{color:var(--accent);}
+  .tab.active svg{stroke:var(--accent);}
   .tab svg{stroke:var(--ink-faint); fill:none; stroke-width:1.7;}
 
   /* ---- Plan tab ---- */
@@ -325,7 +341,7 @@
     position:relative;
   }
   .week-card:first-child{border-top:none;}
-  .week-card.current{background:linear-gradient(90deg, rgba(21,48,45,.045), transparent 40%);}
+  .week-card.current{background:linear-gradient(90deg, rgba(255,71,38,.08), transparent 40%);}
   .week-card.current::before{
     content:"";
     position:absolute; left:0; top:0; bottom:0;
@@ -339,11 +355,10 @@
     cursor:pointer;
   }
   .week-head .wk{
-    font-family:'Fraunces',serif;
-    font-style:italic;
-    font-weight:600;
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:700;
     font-size:19px;
-    color:var(--primary-soft);
+    color:var(--accent);
     width:34px;
   }
   .week-head .wk-info{flex:1;padding-left:6px;}
@@ -384,26 +399,28 @@
     border:1px solid var(--line);
     font-family:inherit;
     font-size:14px;
-    background:#FAFBFA;
+    background:var(--surface2);
     color:var(--ink);
   }
   .btn{
     display:inline-block;
-    background:var(--primary);
+    background:var(--accent);
     color:#fff;
     border:none;
-    padding:11px 18px;
+    padding:12px 18px;
     border-radius:10px;
     font-family:inherit;
-    font-size:13.5px;
-    font-weight:600;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.5px;
+    text-transform:uppercase;
     cursor:pointer;
     width:100%;
   }
   .btn.secondary{
     background:transparent;
-    color:var(--primary);
-    border:1.4px solid var(--primary);
+    color:var(--ink);
+    border:1.4px solid var(--line);
   }
   .macro-bar{
     display:flex;
@@ -420,11 +437,10 @@
   .macro-legend .v{font-size:13.5px;font-weight:600;color:var(--ink);}
   .macro-legend .l{font-size:10.5px;color:var(--ink-faint);}
   .kcal-big{
-    font-family:'Fraunces',serif;
-    font-style:italic;
-    font-weight:600;
-    font-size:38px;
-    color:var(--primary);
+    font-family:'Big Shoulders Display',sans-serif;
+    font-weight:700;
+    font-size:42px;
+    color:var(--accent);
   }
   .tip-list{margin:0;padding-left:18px;font-size:13px;color:var(--ink-soft);line-height:1.6;}
   .tip-list li{margin-bottom:4px;}
@@ -447,7 +463,7 @@
   .stat-strip{display:flex;text-align:center;}
   .stat-strip .stat{flex:1;padding:2px 8px;}
   .stat-strip .stat + .stat{border-left:1px solid var(--line-soft);}
-  .stat-strip .v{font-family:'Fraunces',serif;font-weight:600;font-style:italic;font-size:24px;color:var(--primary);}
+  .stat-strip .v{font-family:'Big Shoulders Display',sans-serif;font-weight:700;font-size:26px;color:var(--accent);}
   .stat-strip .l{font-size:10.5px;color:var(--ink-soft);margin-top:2px;}
 </style>
 </head>
@@ -455,8 +471,8 @@
 <div id="shell">
   <div id="topbar">
     <div>
-      <div class="brand">Til start</div>
-      <div class="sub" id="topbarSub">Fredrikstad Halvmaraton</div>
+      <div class="brand">21KM</div>
+      <div class="sub" id="topbarSub">FREDRIKSTAD</div>
     </div>
     <div class="sub" id="topbarWeek"></div>
   </div>
@@ -581,9 +597,9 @@ function buildWeeks(){
       weeks.push({
         week:w, phaseName:"Løpsuke", start, end,
         sessions:[
-          {id:'shake1', label:'Aktiveringstur', km:4, desc:'20 min rolig + 4×100 m stigningsløp, kjenn deg lett', pace:'Rolig'},
-          {id:'shake2', label:'Siste aktivering', km:3, desc:'15 min rolig, hold beina våkne — ikke mer', pace:'Rolig'},
-          {id:'race', label:'🏁 LØPSDAG — '+RACE_NAME, km:21.1, desc:'Målfart '+GOAL_PACE+' i snitt for '+GOAL_TIME, pace:'4:55–5:00/km'}
+          {id:'shake1', label:'Aktiveringstur', km:4, desc:'20 min rolig + 4×100 m stigningsløp, kjenn deg lett', pace:'Rolig', day:0},
+          {id:'shake2', label:'Siste aktivering', km:3, desc:'15 min rolig, hold beina våkne — ikke mer', pace:'Rolig', day:3},
+          {id:'race', label:'🏁 LØPSDAG — '+RACE_NAME, km:21.1, desc:'Målfart '+GOAL_PACE+' i snitt for '+GOAL_TIME, pace:'4:55–5:00/km', day:5}
         ],
         total:27.1
       });
@@ -593,10 +609,10 @@ function buildWeeks(){
     const qOpt = p.q[w%2===0 ? 1 : 0];
     const long = LONG_RUN[w-1];
     const sessions = [
-      {id:'easy', label:'Rolig tur', km:p.easyKm, desc:'Snakkefart, ingen stress', pace:'5:50–6:20/km'},
-      {id:'quality', label:'Kvalitetsøkt', km:qOpt.km, desc:qOpt.desc, pace:qOpt.pace},
-      {id:'strength', label:'Styrke', km:0, desc:p.strength, pace:'30–40 min'},
-      {id:'long', label:'Langtur', km:long, desc:p.longDesc, pace:p.longPace}
+      {id:'easy', label:'Rolig tur', km:p.easyKm, desc:'Snakkefart, ingen stress', pace:'5:50–6:20/km', day:0},
+      {id:'strength', label:'Styrke', km:0, desc:p.strength, pace:'30–40 min', day:1},
+      {id:'quality', label:'Kvalitetsøkt', km:qOpt.km, desc:qOpt.desc, pace:qOpt.pace, day:2},
+      {id:'long', label:'Langtur', km:long, desc:p.longDesc, pace:p.longPace, day:5}
     ];
     const total = p.easyKm + qOpt.km + long;
     weeks.push({week:w, phaseName:p.name, start, end, sessions, total});
@@ -604,6 +620,10 @@ function buildWeeks(){
   return weeks;
 }
 const WEEKS = buildWeeks();
+const DAY_NAMES = ['Søndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','Lørdag'];
+function sessionDate(week, session){ return new Date(week.start.getTime() + session.day*86400000); }
+function sessionDayLabel(week, session){ return DAY_NAMES[sessionDate(week,session).getDay()]; }
+
 
 function currentWeekIndex(){
   const now = new Date();
@@ -616,11 +636,11 @@ function currentWeekIndex(){
 /* ============ STORAGE ============ */
 const store = {
   async get(key){
-    try{ const r = await window.storage.get(key, false); return r ? JSON.parse(r.value) : null; }
+    try{ const v = localStorage.getItem('hm_'+key); return v!==null ? JSON.parse(v) : null; }
     catch(e){ return null; }
   },
   async set(key, value){
-    try{ await window.storage.set(key, JSON.stringify(value), false); return true; }
+    try{ localStorage.setItem('hm_'+key, JSON.stringify(value)); return true; }
     catch(e){ return false; }
   }
 };
@@ -929,26 +949,45 @@ function wireWeatherCard(){
   });
 }
 
+function todayCardHtml(wk){
+  const now = new Date();
+  if(now < PROGRAM_START){
+    return `<div class="card">
+      <span class="phase-pill">Snart i gang</span>
+      <div class="card-title">Programmet starter ${fmtDate(PROGRAM_START)}</div>
+      <div class="card-sub" style="margin-bottom:0;">Se hele opplegget under Plan.</div>
+    </div>`;
+  }
+  const todayStr = now.toDateString();
+  const session = wk.sessions.find(s => sessionDate(wk,s).toDateString()===todayStr);
+  if(!session){
+    return `<div class="card">
+      <span class="phase-pill">${wk.phaseName}</span>
+      <div class="card-title">Hviledag</div>
+      <div class="card-sub" style="margin-bottom:0;">Ingen økt i dag — bruk dagen til å restituere. Se resten av uken under Plan.</div>
+    </div>`;
+  }
+  const key = 'w'+wk.week+'-'+session.id;
+  const done = !!trainingLog[key];
+  return `<div class="card">
+    <span class="phase-pill">${wk.phaseName}</span>
+    <div class="card-title">I dag</div>
+    <div class="session-row" style="border-top:none;">
+      <div class="check ${done?'done':''}" data-key="${key}"></div>
+      <div class="session-body">
+        <div class="session-label ${done?'done-text':''}">${session.label} ${session.km?('· '+session.km+' km'):''}</div>
+        <div class="session-detail">${session.desc}</div>
+        <div class="session-pace">${session.pace}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderDashboard(){
   const idx = currentWeekIndex();
   const wk = WEEKS[idx];
   const now = new Date();
   const daysLeft = Math.max(0, Math.ceil((RACE_DATE-now)/86400000));
-  const isRaceWeek = wk.week===TOTAL_WEEKS;
-
-  let sessionsHtml = wk.sessions.map(s=>{
-    const key = 'w'+wk.week+'-'+s.id;
-    const done = !!trainingLog[key];
-    return `
-      <div class="session-row">
-        <div class="check ${done?'done':''}" data-key="${key}"></div>
-        <div class="session-body">
-          <div class="session-label ${done?'done-text':''}">${s.label} ${s.km?('· '+s.km+' km'):''}</div>
-          <div class="session-detail">${s.desc}</div>
-          <div class="session-pace">${s.pace}</div>
-        </div>
-      </div>`;
-  }).join('');
 
   document.getElementById('content').innerHTML = `
     <div class="hero">
@@ -961,13 +1000,8 @@ function renderDashboard(){
         <div><div class="n">${GOAL_PACE}</div><div class="l">målfart</div></div>
       </div>
     </div>
+    ${todayCardHtml(wk)}
     ${weatherCardHtml()}
-    <div class="card">
-      <span class="phase-pill">${isRaceWeek ? 'Løpsuke' : wk.phaseName}</span>
-      <div class="card-title">${fmtDate(wk.start)} – ${fmtDate(wk.end)}</div>
-      <div class="card-sub">${isRaceWeek ? 'Kort og rolig frem til start — kroppen er klar.' : '3 løpeøkter + 1 styrkeøkt denne uken. Fordel dem på dagene som passer deg.'}</div>
-      ${sessionsHtml}
-    </div>
   `;
   document.querySelectorAll('.check').forEach(el=>{
     el.addEventListener('click', async ()=>{
@@ -1009,7 +1043,7 @@ function renderPlan(){
       <div class="session-row">
         <div class="session-body">
           <div class="session-label">${s.label} ${s.km?('· '+s.km+' km'):''}</div>
-          <div class="session-detail">${s.desc}</div>
+          <div class="session-detail"><b>${sessionDayLabel(wk,s)}.</b> ${s.desc}</div>
           <div class="session-pace">${s.pace}</div>
         </div>
       </div>`).join('');
@@ -1075,12 +1109,12 @@ function renderKosthold(){
       <div class="macro-bar">
         <span style="width:${(t.protein*4/t.target*100).toFixed(0)}%;background:var(--accent);"></span>
         <span style="width:${(t.carbs*4/t.target*100).toFixed(0)}%;background:var(--gold);"></span>
-        <span style="width:${(t.fat*9/t.target*100).toFixed(0)}%;background:var(--primary-soft);"></span>
+        <span style="width:${(t.fat*9/t.target*100).toFixed(0)}%;background:var(--ink-faint);"></span>
       </div>
       <div class="macro-legend">
         <div><span class="dot" style="background:var(--accent);"></span><span class="v">${t.protein}g</span><br><span class="l">Protein</span></div>
         <div><span class="dot" style="background:var(--gold);"></span><span class="v">${t.carbs}g</span><br><span class="l">Karbo</span></div>
-        <div><span class="dot" style="background:var(--primary-soft);"></span><span class="v">${t.fat}g</span><br><span class="l">Fett</span></div>
+        <div><span class="dot" style="background:var(--ink-faint);"></span><span class="v">${t.fat}g</span><br><span class="l">Fett</span></div>
       </div>
     </div>` : `
     <div class="card"><div class="empty-state">Fyll inn profilen din for å se anbefalt kaloriinntak og makrofordeling.</div></div>
@@ -1134,10 +1168,10 @@ function drawWeightChart(canvas, data){
   const y = v => h-pad - (v-min)/(max-min)*(h-2*pad);
   ctx.beginPath();
   data.forEach((d,i)=>{ const px=x(i), py=y(d.kg); if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py); });
-  ctx.strokeStyle = '#C7473A'; ctx.lineWidth = 2.2; ctx.stroke();
+  ctx.strokeStyle = '#FF4726'; ctx.lineWidth = 2.2; ctx.stroke();
   data.forEach((d,i)=>{
     ctx.beginPath(); ctx.arc(x(i), y(d.kg), 3, 0, 7);
-    ctx.fillStyle = '#173B3C'; ctx.fill();
+    ctx.fillStyle = '#F3F4F3'; ctx.fill();
   });
 }
 
